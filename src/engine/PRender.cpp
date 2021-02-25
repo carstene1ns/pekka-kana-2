@@ -110,6 +110,10 @@ void adjust_screen() {
 
 void set_fullscreen(bool set) {
 
+	#ifdef __SWITCH__
+	return;
+	#endif
+
 	#ifdef __ANDROID__
 		SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
 		return;
@@ -218,6 +222,10 @@ int init(int width, int height, const char* name, const char* icon, int render_m
 				PLog::Write(PLog::DEBUG, "PRender", "Windows XP");
 			}
 
+		#elif __SWITCH__
+
+		render_method = RENDERER_SDL;
+
 		#else
 
 		render_method = RENDERER_OPENGL;
@@ -233,6 +241,10 @@ int init(int width, int height, const char* name, const char* icon, int render_m
 		window_flags |= SDL_WINDOW_OPENGL;
 	
 	//window_flags |= SDL_WINDOW_RESIZABLE;
+
+	#ifdef __SWITCH__
+	window_flags |= SDL_WINDOW_FULLSCREEN;
+	#endif
 
     #ifdef __ANDROID__
 
